@@ -1,9 +1,16 @@
-/*
-TODO remove bootstrap and replace with MUI.
-*/
-
-import { useState, useRef } from "react";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { useState } from "react";
+import {
+  Container,
+  Grid,
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Typography,
+  Box
+} from "@mui/material";
 import QuotationTable from "./QuotationTable";
 
 const products = [
@@ -14,79 +21,116 @@ const products = [
 ];
 
 function App() {
-  const itemRef = useRef();
-  const ppuRef = useRef();
-  const qtyRef = useRef();
+  const [selectedProduct, setSelectedProduct] = useState(products[0].code);
+  const [ppu, setPpu] = useState(products[0].price);
+  const [qty, setQty] = useState(1);
+  const [discount, setDiscount] = useState(0);
 
   const [dataItems, setDataItems] = useState([]);
-  const [ppu, setPpu] = useState(products[0].price)
+
+  const handleProductChange = (event) => {
+    const newCode = event.target.value;
+    setSelectedProduct(newCode);
+
+    const item = products.find((p) => p.code === newCode);
+    setPpu(item.price);
+  };
 
   const addItem = () => {
-    let item = products.find((v) => itemRef.current.value === v.code)
+    const item = products.find((p) => p.code === selectedProduct);
 
     const newItem = {
       item: item.name,
-      ppu: ppuRef.current.value,
-      qty: qtyRef.current.value,
+      ppu,
+      qty,
+      discount,
     };
 
     setDataItems([...dataItems, newItem]);
+    setQty(1);
+    setDiscount(0);
   };
 
   const deleteByIndex = (index) => {
-    let newDataItems = [...dataItems];
+    const newDataItems = [...dataItems];
     newDataItems.splice(index, 1);
     setDataItems(newDataItems);
-  }
-
-  const productChange = () => {
-    let item = products.find((v) => itemRef.current.value === v.code)
-    setPpu(item.price)
-  }
+  };
 
   return (
-    <Container>
-      <Row>
-        <Col md={4} style={{ backgroundColor: "#e4e4e4" }}>
-          <Row>
-            <Col>
-              Item
-              <Form.Select ref={itemRef} onChange={productChange}>
-                {
-                  products.map((p) => (
-                    <option key={p.code} value={p.code}>
-                      {p.name}
-                    </option>
-                  ))
-                }
-              </Form.Select>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Label>Price Per Unit</Form.Label>
-              <Form.Control type="number" ref={ppuRef} value={ppu} onChange={e => setPpu(ppuRef.current.value)} />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Label>Quantity</Form.Label>
-              <Form.Control type="number" ref={qtyRef} defaultValue={1} />
-            </Col>
-          </Row>
-          <hr />
-          <div className="d-grid gap-2">
-            <Button variant="primary" onClick={addItem}>
+    <Container maxWidth="lg" style={{ marginTop: "20px" }}>
+      <Grid container spacing={2}>
+        {/* LEFT SIDE FORM */}
+        <Grid item xs={12} md={4}>
+          <Box
+            sx={{
+              backgroundColor: "#e4e4e4",
+              padding: "16px",
+              borderRadius: "8px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px", // space between fields
+            }}
+          >
+            <Typography variant="h6">Add Item</Typography>
+
+            {/* Item Dropdown */}
+            <FormControl fullWidth>
+              <InputLabel>Item</InputLabel>
+              <Select value={selectedProduct} onChange={handleProductChange}>
+                {products.map((p) => (
+                  <MenuItem key={p.code} value={p.code}>
+                    {p.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/* Price per Unit */}
+            <TextField
+              label="Price Per Unit"
+              type="number"
+              fullWidth
+              value={ppu}
+              onChange={(e) => setPpu(Number(e.target.value))}
+            />
+
+            {/* Quantity */}
+            <TextField
+              label="Quantity"
+              type="number"
+              fullWidth
+              value={qty}
+              onChange={(e) => setQty(Number(e.target.value))}
+            />
+
+            {/* Discount */}
+            <TextField
+              label="Discount"
+              type="number"
+              fullWidth
+              value={discount}
+              onChange={(e) => setDiscount(Number(e.target.value))}
+            />
+
+            {/* Add Button */}
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={addItem}
+              sx={{ fontWeight: "bold" }}
+            >
               Add
             </Button>
-          </div>
-        </Col>
-        <Col md={8}>
-          <QuotationTable
-            data={dataItems}
-            deleteByIndex={deleteByIndex} />
-        </Col>
-      </Row>
+          </Box>
+        </Grid>
+
+        {/* RIGHT SIDE TABLE */}
+        <Grid item xs={12} md={8}>
+          <QuotationTable data={dataItems} deleteByIndex={deleteByIndex} />
+        </Grid>
+      </Grid>
     </Container>
   );
 }
