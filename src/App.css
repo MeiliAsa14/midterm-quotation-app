@@ -1,42 +1,97 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* 🌊 BACKGROUND – Magical Ocean Gradient */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #d4f1f9, #a7d8f0, #6ec1e4);
+  background-size: 400% 400%;
+  animation: oceanFlow 12s ease infinite;
+  min-height: 100vh;
+  padding: 20px;
+  color: #053c5e;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+@keyframes oceanFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* 📜 TITLES – Storybook Feel */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Merriweather', serif;
+  color: #023e8a;
+  letter-spacing: 0.5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* 🐋 GLASS CARDS – Floating Effect */
+.glass-card, .MuiPaper-root {
+  background: rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px rgba(0, 100, 200, 0.2);
+  border: 1px solid rgba(173, 216, 230, 0.4) !important;
+  transition: transform 0.2s ease-in-out;
 }
 
-.card {
-  padding: 2em;
+.glass-card:hover, .MuiPaper-root:hover {
+  transform: translateY(-3px);
 }
 
-.read-the-docs {
-  color: #888;
+/* 🐳 WHALE BUTTON – Ocean Gradient */
+.whale-btn, .MuiButton-containedPrimary {
+  background: linear-gradient(135deg, #4fa3e3, #0077b6) !important;
+  color: white !important;
+  border-radius: 12px;
+  font-weight: bold !important;
+  text-transform: uppercase;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4) !important;
+}
+
+.whale-btn:hover, .MuiButton-containedPrimary:hover {
+  background: linear-gradient(135deg, #0096c7, #023e8a) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 100, 200, 0.5) !important;
+}
+
+/* 🌊 OUTLINED BUTTON – Light Blue */
+.MuiButton-outlinedSecondary {
+  border-color: #4fa3e3 !important;
+  color: #4fa3e3 !important;
+}
+
+.MuiButton-outlinedSecondary:hover {
+  background-color: rgba(79, 163, 227, 0.1) !important;
+  border-color: #0096c7 !important;
+}
+
+/* 📊 TABLE – Soft Glass Ledger */
+.MuiTableCell-root {
+  border-bottom: 1px solid rgba(173, 216, 230, 0.6) !important;
+  color: #053c5e !important;
+  font-weight: 500;
+}
+
+.MuiTableCell-head {
+  font-weight: bold !important;
+  color: #0077b6 !important;
+  font-size: 1.1rem !important;
+}
+
+/* 🎠 SCROLLBAR – Subtle Ocean Blue */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4fa3e3;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0096c7;
 }
